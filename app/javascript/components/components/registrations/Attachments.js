@@ -73,7 +73,7 @@ export default class Attachments extends Component {
             multiple={multiple}
             onDrop={this.onDrop}>
             <center className="text-blue-600/0 cursor-pointer">
-              <span className="font-weight-bold">Selecciona archivos tipo imagen o PDF.</span>
+              <span className="font-weight-bold">Selecciona maximo 3 archivos tipo imagen o PDF.</span>
             </center>
           </Dropzone>
         }
