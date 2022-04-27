@@ -1,7 +1,9 @@
 import React, {Fragment, useState} from 'react'
 import { useForm } from "react-hook-form";
+import uuid from 'react-uuid'
 
 import ParticipantForm from './ParticipantForm'
+import Attachments from './Attachments'
 
 const baseParticipant = {
   apellido_paterno: '',
@@ -14,6 +16,7 @@ const baseParticipant = {
 }
 
 const Form = () => {
+  const form_uuid = uuid()
   const { register, handleSubmit, watch } = useForm();
   const onSubmit = (data) => console.log(data);
   const tipo_de_comprobante = watch('tipo_de_comprobante')
@@ -36,8 +39,6 @@ const Form = () => {
     setParticipants(new_participants)
   }
 
-  console.log(participantes)
-
   return(
     <Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -48,7 +49,7 @@ const Form = () => {
 
           <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
             <div className="intro-y col-span-12 sm:col-span-6">
-              <label>CONPROBANTE DE PAGO</label>
+              <label>COMPROBANTE DE PAGO</label>
 
               <div className="flex flex-col sm:flex-row mt-2">
                 <div className="form-check mr-2 mt-2">
@@ -92,8 +93,23 @@ const Form = () => {
             </div>
           </div>
 
-          { tipo_de_comprobante && categoria &&
+          { ((tipo_de_comprobante && categoria) || true) &&
             <Fragment>
+              <div className="px-5 sm:px-20 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400">
+                <div className="font-medium text-base">
+                  COMPROBANTE DE PAGO
+                </div>
+
+                <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">
+                  <div className="intro-y col-span-12 sm:col-span-12">
+                    <Attachments 
+                      resource_type={"registrations"}
+                      resource_id={form_uuid}
+                    />
+                  </div>
+                </div>
+              </div>
+
               { participantes.map((participant, index) => {
                 return(
                   <ParticipantForm 

@@ -6,10 +6,13 @@
     "@hotwired/turbo-rails": "^7.1.1",
     "axios": "^0.26.1",
     "esbuild": "^0.14.36",
+    "rc-progress": "^3.2.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-dropzone": "7.0.1",
     "react-hook-form": "^7.29.0",
-    "react-query": "^3.34.20"
+    "react-query": "^3.34.20",
+    "react-uuid": "^1.0.2"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --loader:.js=jsx "
