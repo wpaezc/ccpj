@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_28_023457) do
     t.string "uuid"
     t.string "extension"
     t.string "file"
+    t.integer "registration_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -40,6 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_28_023457) do
     t.string "ruc"
     t.string "tipo_de_inscripcion"
     t.string "categoria"
+    t.string "uuid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

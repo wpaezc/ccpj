@@ -7,6 +7,7 @@ class CreateAttachments < ActiveRecord::Migration[7.0]
       t.string :uuid
       t.string :extension
       t.string :file
+      t.integer :registration_id
 
       t.timestamps
     end

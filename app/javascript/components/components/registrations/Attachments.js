@@ -76,7 +76,7 @@ export default class Attachments extends Component {
             multiple={multiple}
             onDrop={this.onDrop}>
             <center className="text-blue-600/0 cursor-pointer">
-              <span className="font-weight-bold">Selecciona maximo 3 archivos tipo imagen o PDF de maximo 10MB cada uno.</span>
+              <span className="font-weight-bold">Selecciona 3 archivos tipo imagen o PDF de máximo 10MB cada uno.</span>
             </center>
           </Dropzone>
         }
@@ -85,6 +85,7 @@ export default class Attachments extends Component {
           files={this.state.files}
           resource_type={this.props.resource_type}
           resource_id={this.props.resource_id}
+          updateInputValue={this.props.addFiles}
         />
       </Fragment>
     )

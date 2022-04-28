@@ -10,4 +10,10 @@ class AttachmentSerializer
       }
     )
   end
+
+  attribute :uploaded do |object|
+    true
+  end
+
+
 end

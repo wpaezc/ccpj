@@ -100,28 +100,22 @@ export default class AttachmentFiles extends React.Component {
         { image_files.map((file, index) => {
           return (
               <FileThumb
-                key={file.uuid || index}
+                key={file.uuid}
                 file={file}
                 resource_type={this.props.resource_type}
                 resource_id={this.props.resource_id}
-                onImageClick={() => this.setState({isOpen: true, photoIndex: index})}
                 updateInputValue={this.props.updateInputValue} 
-                small_view={small_view}
-                can_delete_attachment={this.props.can_delete_attachment}
-                remove_file={this.props.remove_file}
               />
           )
         })}
         { other_files.map((file, index) => {
           return (
               <FileThumb
-                key={file.uuid || index} 
+                key={file.uuid} 
                 file={file}
                 resource_type={this.props.resource_type}
                 resource_id={this.props.resource_id}
-                small_view={small_view}
-                can_delete_attachment={this.props.can_delete_attachment}
-                remove_file={this.props.remove_file}
+                updateInputValue={this.props.updateInputValue} 
               />
           )
         })}
@@ -146,7 +140,7 @@ class FileThumb extends React.Component {
     
     this.state = {
       uploaded_percentage: 0,
-      uploaded: false,
+      uploaded: file.uploaded,
       created_at_label: file.created_at_label,
       user: file.user,
     }
@@ -154,7 +148,10 @@ class FileThumb extends React.Component {
 
   componentDidMount() {
     let {file} = this.props
-    if(!file.uploaded) {
+    let uploaded = file.uploaded || this.state.uploaded
+    if(!uploaded)  {
+      if (this.first) return; this.first = true;
+
       let headers = {
         'Content-Type': file.type
       }
@@ -183,9 +180,7 @@ class FileThumb extends React.Component {
         axios.post(`/api/registrations/attachments`, data).then((response) => {
           let file_data = response.data.data ? response.data.data.attributes : {}
           this.setState({id: file_data.id, uploaded: true, created_at_label: file_data.created_at_label, user: file_data.user}, () => {
-            if(this.props.updateInputValue) {
-              this.props.updateInputValue(file_data)
-            }
+            this.props.updateInputValue(file_data)
           })
         })
       })
@@ -198,15 +193,7 @@ class FileThumb extends React.Component {
 
     let icon = 'fa fa-file-o'
 
-    if(file.extension == 'pdf' || file.document_type == 'pdf' || file.document_type == 'pdf_form') {
-      icon = 'fa fa-file-pdf-o'
-    }
-    if(file.extension == 'docx' || file.document_type == 'word' || file.document_type == 'docx') {
-      icon = 'fa fa-file-word-o'
-    }
-
     let thumb = {...thumbInner}
-
     
     let is_image = isImage(file.extension)
     let image_url = file.preview || file.file_url
@@ -232,7 +219,7 @@ class FileThumb extends React.Component {
             </a>
           </div>
         ) : (
-          <div style={thumb} onClick={this.props.onImageClick}>
+          <div style={thumb}>
             <img
               src={image_url}
               style={img}

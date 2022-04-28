@@ -5,6 +5,7 @@ class CreateRegistrations < ActiveRecord::Migration[7.0]
       t.string :ruc
       t.string :tipo_de_inscripcion
       t.string :categoria
+      t.string :uuid
 
       t.timestamps
     end

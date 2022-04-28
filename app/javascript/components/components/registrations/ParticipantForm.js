@@ -10,7 +10,7 @@ const ParticipantForm = ({participant, index, updateParticipant}) => {
   }
 
   return(
-    <div className="px-5 sm:px-20 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400">
+    <div className="px-5 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400">
 			<div className="font-medium text-base">
         DATOS PERSONALES DEL PARTICIPANTE Nº{index + 1}
       </div>
