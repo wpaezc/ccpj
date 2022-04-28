@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { render } from 'react-dom'
 
 import { Line } from 'rc-progress'
+import { FaFile } from 'react-icons/fa';
 import axios from 'axios'
 const csrf_token = document.querySelector('meta[name="csrf-token"]')['content']
 axios.defaults.headers.post['X-CSRF-TOKEN'] = csrf_token
@@ -76,12 +77,8 @@ export default class AttachmentFiles extends React.Component {
     let other_files = []
     let images = []
     let titles = []
-    let class_name = 'col-lg-3 col-md-4 col-sm-6'
+    let class_name = 'intro-y grid grid-cols-12 gap-3 sm:gap-6 mt-5'
     
-    if(small_view) {
-      class_name = 'col-12'
-    }
-
     this.props.files.forEach((f) => {
       if(isImage(f.extension)) {
         image_files.push(f)
@@ -99,49 +96,45 @@ export default class AttachmentFiles extends React.Component {
     let no_label = this.props.field_type == 'file' ? 'NO FILES' : 'NO IMAGES'
 
     return(
-      <Fragment>
-        <div className='row'>
-          { image_files.map((file, index) => {
-            return (
-              <div key={file.uuid || index} className={class_name}>
-                <FileThumb
-                  file={file}
-                  resource_type={this.props.resource_type}
-                  resource_id={this.props.resource_id}
-                  onImageClick={() => this.setState({isOpen: true, photoIndex: index})}
-                  updateInputValue={this.props.updateInputValue} 
-                  small_view={small_view}
-                  can_delete_attachment={this.props.can_delete_attachment}
-                  remove_file={this.props.remove_file}
-                />
-              </div>
-            )
-          })}
-          { other_files.map((file, index) => {
-            return (
-              <div key={file.uuid || index} className={class_name}>
-                <FileThumb
-                  file={file}
-                  resource_type={this.props.resource_type}
-                  resource_id={this.props.resource_id}
-                  small_view={small_view}
-                  can_delete_attachment={this.props.can_delete_attachment}
-                  remove_file={this.props.remove_file}
-                />
-              </div>
-            )
-          })}
+      <div className={class_name}>
+        { image_files.map((file, index) => {
+          return (
+              <FileThumb
+                key={file.uuid || index}
+                file={file}
+                resource_type={this.props.resource_type}
+                resource_id={this.props.resource_id}
+                onImageClick={() => this.setState({isOpen: true, photoIndex: index})}
+                updateInputValue={this.props.updateInputValue} 
+                small_view={small_view}
+                can_delete_attachment={this.props.can_delete_attachment}
+                remove_file={this.props.remove_file}
+              />
+          )
+        })}
+        { other_files.map((file, index) => {
+          return (
+              <FileThumb
+                key={file.uuid || index} 
+                file={file}
+                resource_type={this.props.resource_type}
+                resource_id={this.props.resource_id}
+                small_view={small_view}
+                can_delete_attachment={this.props.can_delete_attachment}
+                remove_file={this.props.remove_file}
+              />
+          )
+        })}
 
-          { this.props.files.length == 0 && this.props.comes_from_campodata_form &&
-            <div className='mx-3' style={{width: '100%', border: '1px solid #e5e6eb', borderRadius: '2px'}}>
-              <center className='py-4 text-muted small'>
-                {no_label}
-              </center>
-            </div>
-          }
+        { this.props.files.length == 0 && this.props.comes_from_campodata_form &&
+          <div className='mx-3' style={{width: '100%', border: '1px solid #e5e6eb', borderRadius: '2px'}}>
+            <center className='py-4 text-muted small'>
+              {no_label}
+            </center>
+          </div>
+        }
 
-        </div>
-      </Fragment>
+      </div>
     )
   }
 }
@@ -187,7 +180,7 @@ class FileThumb extends React.Component {
           file: file
         }
 
-        axios.post(file.callback_url || `/web_api/projects_management/attachments`, data).then((response) => {
+        axios.post(`/api/registrations/attachments`, data).then((response) => {
           let file_data = response.data.data ? response.data.data.attributes : {}
           this.setState({id: file_data.id, uploaded: true, created_at_label: file_data.created_at_label, user: file_data.user}, () => {
             if(this.props.updateInputValue) {
@@ -229,31 +222,23 @@ class FileThumb extends React.Component {
     let { created_at_label, user } = this.state
 
     return(
-      <div className="card" style={file_card_style}>  
-        <div>
-          { uploaded && false &&
-            <a className='btn btn-sm btn-danger' style={delete_button}>
-              <i className='fa fa-times'></i>
+      <div className="intro-y col-span-6 sm:col-span-4 md:col-span-4 2xl:col-span-4" style={file_card_style}>  
+        { !is_image ? (
+          <div style={thumb}>
+            <a target="_blank" href={file.preview || file.file_url} alt={file.name}>
+            { !small_view && 
+              <FaFile size="50px"/>
+            }
             </a>
-          }
-
-          { !is_image ? (
-            <div style={thumb}>
-              <a target="_blank" href={file.preview || file.file_url} alt={file.name}>
-              { !small_view && 
-                <i style={i_style} className={icon}></i> 
-              }
-              </a>
-            </div>
-          ) : (
-            <div style={thumb} onClick={this.props.onImageClick}>
-              <img
-                src={image_url}
-                style={img}
-              />
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div style={thumb} onClick={this.props.onImageClick}>
+            <img
+              src={image_url}
+              style={img}
+            />
+          </div>
+        )}
         { !uploaded &&
           <Line percent={this.state.uploaded_percentage} strokeWidth="4" trailColor="#D3D3D3" strokeColor="#2db7f5" />
         }

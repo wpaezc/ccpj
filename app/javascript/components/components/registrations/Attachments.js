@@ -39,8 +39,11 @@ export default class Attachments extends Component {
         )
       })
 
+      files_map = files_map.filter(e => e.size/1024/1224 <= 10.0)
+
+
       let files_data = files_map.map(file => {
-        return {name: file.name, uuid: file.uuid, extension: file.extension, type: file.type }
+        return {name: file.name, uuid: file.uuid, extension: file.extension, type: file.type, size: file.size/1024/1024 }
       })
 
       let params = {
@@ -69,24 +72,20 @@ export default class Attachments extends Component {
       <Fragment>
         { files.length < max_files &&
           <Dropzone
-            className="dropzone py-4 mb-2"
+            className="dropzone py-4 mb-2 cursor-pointer"
             multiple={multiple}
             onDrop={this.onDrop}>
             <center className="text-blue-600/0 cursor-pointer">
-              <span className="font-weight-bold">Selecciona maximo 3 archivos tipo imagen o PDF.</span>
+              <span className="font-weight-bold">Selecciona maximo 3 archivos tipo imagen o PDF de maximo 10MB cada uno.</span>
             </center>
           </Dropzone>
         }
 
-        <div className='row'> 
-          <div className='col-md-12'> 
-            <AttachmentFiles 
-              files={this.state.files}
-              resource_type={this.props.resource_type}
-              resource_id={this.props.resource_id}
-            />
-          </div>
-        </div>
+        <AttachmentFiles 
+          files={this.state.files}
+          resource_type={this.props.resource_type}
+          resource_id={this.props.resource_id}
+        />
       </Fragment>
     )
   }

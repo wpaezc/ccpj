@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_16_152603) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_28_023457) do
+  create_table "attachments", force: :cascade do |t|
+    t.string "resource_type"
+    t.string "resource_id"
+    t.string "name"
+    t.string "uuid"
+    t.string "extension"
+    t.string "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "participants", force: :cascade do |t|
     t.string "apellido_paterno"
     t.string "apellido_materno"

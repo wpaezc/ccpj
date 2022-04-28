@@ -1,4 +1,4 @@
-class Registrations
+class Attachments
   def initialize(resource_type, resource_id, data)
     @resource_type = resource_type
     @resource_id = resource_id
@@ -10,8 +10,8 @@ class Registrations
     att.signed_urls
   end
 
-  def self.create(organization, user, resource_type, resource_id, data)
-    att = new(organization, user, resource_type, resource_id, data)
+  def self.create(resource_type, resource_id, data)
+    att = new(resource_type, resource_id, data)
     att.create
   end
 
@@ -27,6 +27,7 @@ class Registrations
 
     @data.each do |file|
       file = JSON.parse(file)
+      next if file['size'].to_f > 10
       name = file['name'].sub(/\..*/, '') || ""
       file_name = "#{name.parameterize}-#{file['uuid']}.#{file['extension']}"
       upload_path = "#{upload_base_path}/#{file_name}"
@@ -52,26 +53,17 @@ class Registrations
 
   def create
     map = {
-      organization_id: @organization.id,
       resource_type: @resource_type,
       resource_id: @resource_id,
       name: @data['original_name'],
       uuid: @data['uuid'],
       extension: @data['extension']&.downcase,
-      user_id: @user.id,
       file: @data['filename']
     }
     attachment = Attachment.new(map)
     attachment.save(validate: false)
     attachment.update_column(:file, @data['filename'])
     attachment.reload
-
-    if attachment.is_image?
-      ProcessImageAttachment.perform_later(attachment.id)
-    elsif attachment.is_pdf? && @resource_type == 'project_tasks'
-      ptt = ProjectTask.find(@resource_id).project_task_type
-      ProcessPdfAttachment.perform_later(attachment.id) if ptt.effective_convert_pdf_attachments_to_images
-    end
 
     attachment
   end

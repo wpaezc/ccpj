@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :registrations, only: [:create] do
       collection do
         get '/signed_urls', to: 'registrations#signed_urls'
+        post '/attachments', to: 'registrations#attachments'
       end
     end
   end
