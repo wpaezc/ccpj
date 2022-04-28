@@ -14,16 +14,6 @@ ENV RAILS_ENV ${RAILS_ENV}
 
 ENV BUNDLE_PATH="/gems"
 
-#Just to not raise error
-ENV REDIS_PROVIDER="development"
-ENV DB_ADAPTER="nulldb"
-
-# To install sidekip-pro
-ARG BUNDLE_GEMS__CONTRIBSYS__COM
-ENV BUNDLE_GEMS__CONTRIBSYS__COM ${BUNDLE_GEMS__CONTRIBSYS__COM}
-
-#icu-dev > Charlock Holmes
-
 RUN apk update \
   && apk add \
     openssl \
@@ -32,10 +22,6 @@ RUN apk update \
     tzdata \
     postgresql-dev \
     postgresql-client \
-    icu-dev \
-    imagemagick \
-    imagemagick-dev \
-    imagemagick-libs \
     nodejs \
     yarn \
     git \
