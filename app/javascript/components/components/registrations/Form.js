@@ -200,7 +200,7 @@ const Form = () => {
 
               <div className="px-5 mt-10 pt-10 border-t border-slate-200/60 dark:border-darkmode-400">
                 <div className="font-medium text-base">
-                  COMPROBANTE DE PAGO
+                  VOUCHER DE PAGO U OTROS
                 </div>
 
                 <div className="grid grid-cols-12 gap-4 gap-y-5 mt-5">

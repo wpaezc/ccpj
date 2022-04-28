@@ -1,0 +1,109 @@
+<div class="grid grid-cols-12 gap-6 mt-5">
+  <div class="intro-y col-span-12 lg:col-span-12">
+    <div class="intro-y box">
+      <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60">
+        <h2 class="font-medium text-base mr-auto">Datos generales</h2>
+      </div>
+
+      <div class="p-5" id="">
+        <div class="flex items-center">
+          <div class="border-l-2 border-primary dark:border-primary pl-4">
+            <a href="" class="font-medium">Fecha de registro</a>
+            <div class="text-slate-500"><%= @registration.created_at.in_time_zone("Lima").strftime("%b %e %Y, %l:%M %p")%></div>
+          </div>
+        </div>
+        <div class="flex items-center mt-2">
+          <div class="border-l-2 border-primary dark:border-primary pl-4">
+            <a href="" class="font-medium">Comprobante de pago</a>
+            <div class="text-slate-500"><%= @registration.tipo_de_comprobante&.capitalize%></div>
+          </div>
+        </div>
+        <% if @registration.ruc.present? %>
+        <div class="flex items-center mt-2">
+          <div class="border-l-2 border-primary dark:border-primary pl-4">
+            <a href="" class="font-medium">RUC</a>
+            <div class="text-slate-500"><%= @registration.ruc%></div>
+          </div>
+        </div>
+        <% end %>
+        <div class="flex items-center mt-2">
+          <div class="border-l-2 border-primary dark:border-primary pl-4">
+            <a href="" class="font-medium">Categoria</a>
+            <div class="text-slate-500"><%= @registration.categoria&.capitalize%></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="intro-y box">
+      <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60">
+        <h2 class="font-medium text-base mr-auto">Participantes registrados</h2>
+      </div>
+      <div class="p-5" id="">
+        <div class="preview">
+          <div class="overflow-x-auto">
+            <table class="table table-dark mt-5">
+              <thead>
+                <tr>
+                  <th class="whitespace-nowrap">#</th>
+                  <th class="whitespace-nowrap">Apellido paterno</th>
+                  <th class="whitespace-nowrap">Apellido materno</th>
+                  <th class="whitespace-nowrap">Nombres</th>
+                  <th class="whitespace-nowrap">DNI/NIT</th>
+                  <th class="whitespace-nowrap">Correo</th>
+                  <th class="whitespace-nowrap">Celular</th>
+                  <th class="whitespace-nowrap">Pais</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @registration.participants.order("id ASC").each.with_index do |p, i| %>
+                  <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= p.apellido_paterno %></td>
+                    <td><%= p.apellido_materno %></td>
+                    <td><%= p.nombres %></td>
+                    <td><%= p.document_identidad %></td>
+                    <td><%= p.correo %></td>
+                    <td><%= p.celular %></td>
+                    <td><%= p.pais %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="intro-y box">
+      <div class="flex flex-col sm:flex-row items-center p-5 border-b border-slate-200/60">
+        <h2 class="font-medium text-base mr-auto">Voucher de pago y otros</h2>
+      </div>
+      <div class="p-5" id="">
+        <div class="preview">
+          <div class="intro-y grid grid-cols-12 gap-3 sm:gap-6 mt-5">
+            <% @registration.attachments.each do |a|%>
+              <div class="intro-y col-span-6 sm:col-span-4 md:col-span-4 2xl:col-span-4" style="background: rgb(255, 255, 255); transition: all 0.5s ease 0s; border: 0px; position: relative; width: 100%; box-shadow: none; margin-bottom: 10px;">
+
+                <a target="_blank" class="" href="<%= a.file_url %>" alt="layers.png">
+                  <div style="display: flex; justify-content: center; align-items: center; overflow: hidden; cursor: pointer; height: 180px; margin-top: 10px;">
+                    <% if a.is_image?%>
+                    <img src="<%= a.file_url %>" style="max-width: 100%; height: auto;">
+                    <% else %>
+                      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="50px" width="50px" xmlns="http://www.w3.org/2000/svg"><path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"></path></svg>
+                    <%end%>
+                  </div>
+                  <small class="mt-2">
+                    <center>
+                        <%= a.name %>
+                    </center>
+                  </small>
+                </a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

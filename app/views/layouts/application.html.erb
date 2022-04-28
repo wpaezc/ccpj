@@ -11,7 +11,29 @@
   </head>
 
   <body class="main">
-    <%= yield%>
+    <div class="wrapper wrapper--top-nav">
+      <div class="wrapper-box">
+        <div class="content">
+          <div class="flex items-center mt-8">
+            <h1 class="intro-y text-lg font-medium mr-auto">
+              Inscripción - II CITC2022
+            </h1>
+          </div>
+
+          <div class="intro-y box pb-10 sm:pb-20 mt-5">
+            <div class="flex justify-center">
+              <%= image_tag('logo.png', class: 'h-48') %>
+            </div>
+            <div class="px-5 mt-10">
+              <div class="font-medium text-center text-lg">INSCRIPCIÓN</div>
+              <div class="text-slate-500 text-center mt-2">II Congreso Internacional de Teoria Contable 2022.</div>
+            </div>
+
+            <%= yield%>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "registrations#index"
 
+  resources :registrations, only: [:show]
+
   namespace :api do
     resources :registrations, only: [:create] do
       collection do

@@ -9,10 +9,12 @@ const RegistrationsContainer = () => {
   )
 }
 
-const root = ReactDOM.createRoot(document.getElementById("registrations"));
+if (document.getElementById("registrations")) {
+  const root = ReactDOM.createRoot(document.getElementById("registrations"));
 
-root.render(
-  <React.StrictMode>
-    <RegistrationsContainer />
-  </React.StrictMode>
-)
+  root.render(
+    <React.StrictMode>
+      <RegistrationsContainer />
+    </React.StrictMode>
+  )
+}
