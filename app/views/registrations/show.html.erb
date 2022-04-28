@@ -5,33 +5,49 @@
         <h2 class="font-medium text-base mr-auto">Datos generales</h2>
       </div>
 
-      <div class="p-5" id="">
-        <div class="flex items-center">
-          <div class="border-l-2 border-primary dark:border-primary pl-4">
-            <a href="" class="font-medium">Fecha de registro</a>
-            <div class="text-slate-500"><%= @registration.created_at.in_time_zone("Lima").strftime("%b %e %Y, %l:%M %p")%></div>
+      <div class="intro-y grid grid-cols-12 gap-3 sm:gap-6 mt-5">
+        <div class="intro-y col-span-6 sm:col-span-4 md:col-span-4 2xl:col-span-4" style="background: rgb(255, 255, 255); transition: all 0.5s ease 0s; border: 0px; position: relative; width: 100%; box-shadow: none; margin-bottom: 10px;">
+          <div class="px-5">
+            <div class="flex items-center">
+              <div class="border-l-2 border-primary dark:border-primary pl-4">
+                <a href="" class="font-medium">Fecha de registro</a>
+                <div class="text-slate-500"><%= @registration.created_at.in_time_zone("Lima").strftime("%b %e %Y, %l:%M %p")%></div>
+              </div>
+            </div>
+
+            <div class="flex items-center mt-2">
+              <div class="border-l-2 border-primary dark:border-primary pl-4">
+                <a href="" class="font-medium">Comprobante de pago</a>
+                <div class="text-slate-500"><%= @registration.tipo_de_comprobante&.capitalize%></div>
+              </div>
+            </div>
+
+            <% if @registration.ruc.present? %>
+            <div class="flex items-center mt-2">
+              <div class="border-l-2 border-primary dark:border-primary pl-4">
+                <a href="" class="font-medium">RUC</a>
+                <div class="text-slate-500"><%= @registration.ruc%></div>
+              </div>
+            </div>
+            <% end %>
+
+            <div class="flex items-center mt-2">
+              <div class="border-l-2 border-primary dark:border-primary pl-4">
+                <a href="" class="font-medium">Categoria</a>
+                <div class="text-slate-500"><%= @registration.categoria&.capitalize%></div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="intro-y col-span-6 sm:col-span-4 md:col-span-4 2xl:col-span-4" style="background: rgb(255, 255, 255); transition: all 0.5s ease 0s; border: 0px; position: relative; width: 100%; box-shadow: none; margin-bottom: 10px;">
+          <div class="px-5">
+            <%= @svg.html_safe%>
           </div>
         </div>
-        <div class="flex items-center mt-2">
-          <div class="border-l-2 border-primary dark:border-primary pl-4">
-            <a href="" class="font-medium">Comprobante de pago</a>
-            <div class="text-slate-500"><%= @registration.tipo_de_comprobante&.capitalize%></div>
-          </div>
-        </div>
-        <% if @registration.ruc.present? %>
-        <div class="flex items-center mt-2">
-          <div class="border-l-2 border-primary dark:border-primary pl-4">
-            <a href="" class="font-medium">RUC</a>
-            <div class="text-slate-500"><%= @registration.ruc%></div>
-          </div>
-        </div>
-        <% end %>
-        <div class="flex items-center mt-2">
-          <div class="border-l-2 border-primary dark:border-primary pl-4">
-            <a href="" class="font-medium">Categoria</a>
-            <div class="text-slate-500"><%= @registration.categoria&.capitalize%></div>
-          </div>
-        </div>
+
+
       </div>
     </div>
 
