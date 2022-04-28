@@ -16,6 +16,7 @@ ENV BUNDLE_PATH="/gems"
 
 RUN apk update \
   && apk add \
+    libxml2 \
     openssl \
     tar \
     build-base \
