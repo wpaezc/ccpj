@@ -18,7 +18,10 @@ require "action_cable/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Dotenv::Railtie.load
+
+if Rails.env.production?
+  Dotenv::Railtie.load
+end
 
 module Ccpj
   class Application < Rails::Application
