@@ -19,7 +19,7 @@ require "action_cable/engine"
 Bundler.require(*Rails.groups)
 
 
-if Rails.env.production?
+if !Rails.env.production?
   Dotenv::Railtie.load
 end
 
