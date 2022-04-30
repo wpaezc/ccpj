@@ -17,4 +17,4 @@ test:
 production:
   <<: *default
   database: ccpj-production
-  url: <%= ENV['POSTGRESQL_URL'] %>
+  url: <%= ENV['DATABASE_URL'] %>
