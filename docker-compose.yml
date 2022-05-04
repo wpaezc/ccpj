@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5433:5432"
+    networks:
+      - ccpj-develop
+    environment:
+      POSTGRES_PASSWORD: "dev_password"
+  rails:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    entrypoint: [bin/docker-entry]
+    command: rails s -b 0.0.0.0 -p 3000
+    ports:
+      - "3001:3000"
+    env_file:
+      - '.env'
+    environment:
+      DATABASE_PASSWORD: "dev_password"
+      DATABASE_HOST: db
+      DATABASE_PORT: "5432" #This is the port that exposes db, not the one that my machine communicates to
+    volumes:
+      - ./:/ccpj/
+    working_dir: /ccpj
+    depends_on:
+      - db
+    networks:
+      - ccpj-develop
+
+networks:
+  ccpj-develop:
